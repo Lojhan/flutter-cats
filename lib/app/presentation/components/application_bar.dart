@@ -1,8 +1,10 @@
+import 'package:example_app/app/app_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class ApplicationBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
+
   const ApplicationBar({
     Key? key,
     this.title,
@@ -13,28 +15,36 @@ class ApplicationBar extends StatelessWidget implements PreferredSizeWidget {
 
   String get getTitle {
     String path = Modular.to.path;
-    if (title != null && title!.isNotEmpty) {
-      return title!;
-    }
+    return title ?? routesMap[path]?.keys.first ?? 'App';
+  }
 
-    if (path == '/') {
-      return 'Home';
-    }
-
-    if (path == '/login') {
-      return 'Login';
-    }
-
-    if (path == '/edit') {
-      return 'Edit';
-    }
-
-    return 'Other Page';
+  List<Widget> actions() {
+    if (Modular.to.path != '/') return [];
+    return [
+      PopupMenuButton(
+        itemBuilder: (context) => [
+          const PopupMenuItem(
+            value: '/about',
+            child: Text('About'),
+          ),
+          const PopupMenuItem(
+            value: '/donate',
+            child: Text('Donate'),
+          ),
+          const PopupMenuItem(
+            value: '/settings',
+            child: Text('Settings'),
+          )
+        ],
+        onSelected: (String value) => Modular.to.pushNamed(value),
+      )
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      actions: actions(),
       title: Text(getTitle),
     );
   }

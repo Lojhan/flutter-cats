@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:example_app/app/BloC/themes/themes_bloc.dart';
 import 'package:example_app/app/app_module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,12 +34,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemesBloc themesBloc = Modular.get<ThemesBloc>();
+
     Modular.setInitialRoute('/login');
-    return MaterialApp.router(
-      title: 'Prediction App',
-      theme: ThemeData.dark(),
-      routeInformationParser: Modular.routeInformationParser,
-      routerDelegate: Modular.routerDelegate,
-    );
+    return BlocBuilder(
+        bloc: themesBloc,
+        builder: (BuildContext context, ThemesState state) {
+          return MaterialApp.router(
+            title: 'Prediction App',
+            theme: state.theme == 'dark' ? ThemeData.dark() : ThemeData.light(),
+            routeInformationParser: Modular.routeInformationParser,
+            routerDelegate: Modular.routerDelegate,
+          );
+        });
   }
 }

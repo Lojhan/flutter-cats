@@ -1,7 +1,4 @@
-import 'package:example_app/app/presentation/components/application_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class LoginPage extends StatelessWidget {
@@ -18,40 +15,64 @@ class LoginPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: const ApplicationBar(),
-      body: Center(
+      body: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Login'),
-            TextButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  Colors.blue,
-                ),
-              ),
-              onPressed: login,
-              child: const Text(
-                'Login',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
+            Image.asset('assets/logo.png'),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 35),
+              child: Text('Login', style: TextStyle(fontSize: 36)),
             ),
-            TextButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  Colors.blue,
+            SizedBox(
+              width: 350,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const TextField(
+                        decoration: InputDecoration(labelText: 'Email'),
+                      ),
+                      const TextField(
+                        decoration: InputDecoration(labelText: 'Password'),
+                      ),
+                      const SizedBox(height: 30),
+                      TextButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.blue,
+                          ),
+                        ),
+                        onPressed: login,
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Colors.blue,
+                          ),
+                        ),
+                        onPressed: register,
+                        child: const Text(
+                          'Register',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              onPressed: register,
-              child: const Text(
-                'Register',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            )
           ],
         ),
       ),
